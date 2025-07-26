@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vikn_codes/utils/app_assets.dart';
@@ -15,57 +16,189 @@ class DashboardScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Column(
-            spacing: 15,
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 15,
+              children: [
+            
+                Row(
+                  spacing: 5,
+                  children: [
+                    Image.asset("assets/images/Group.png"),
+                    Text(
+                      "CabZing",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: AppColors.primaryBgColor,
+                      backgroundImage: AssetImage(AppAssets.dp),
+                    ),
+                  ],
+                ),
+                _buildChartWidget(),
+            
+                _buildDashboardTile(
+                  iconPath: AppIcons.stickerIcon,
+                  title: "Bookings",
+                  value: '665.0',
+                  subtitle: "Reserved",
+                  color: AppColors.lightOrange,
+                  onTap: () {},
+                ),
+                _buildDashboardTile(
+                  iconPath: AppIcons.moneybagIcon,
+                  title: "Invoices",
+                  value: '45434.0',
+                  subtitle: "Rupees",
+                  color: AppColors.lightgreen,
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => InvoicesPage(),));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildChartWidget(){
+    return Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.primaryBgColor,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Column(
+        spacing: 10,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              Column(
                 spacing: 5,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset("assets/images/Group.png"),
-                  Text(
-                    "CabZing",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'SAR ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.greyTextcolor,
+                          ),
+                        ),
+                        TextSpan(text: '233234232'),
+                      ],
                     ),
                   ),
-                  Spacer(),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: AppColors.primaryBgColor,
-                    backgroundImage: AssetImage(AppAssets.dp),
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.greyTextcolor
+                      ),
+                      children: [
+                        TextSpan(
+                          text: '+21% ',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.appGreen,
+                          ),
+                        ),
+                        TextSpan(text: 'than last month.'),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              Container(
-                height: 300,
+              Text('Revenue',
+              style: TextStyle(
+                fontSize: 16,
+                color: AppColors.appWhite
+              ),)
+            ],
+            
+          ),
+          _buildGraph(),
+          Row(
+            spacing: 10,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ...List.generate(6, (index) => Container(
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryBgColor,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(3),
+                  color:
+                  index==1?AppColors.primaryColor:
+                  Color(0xff131313)
+                ),
+                height: 32,width: 32,
+                child: Text('${index+1}',
+                style: TextStyle(
+                  color: AppColors.appWhite
+                ),
+                ),
+              ),)
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGraph(){
+    return SizedBox(
+      height: 200,
+      child: LineChart(
+        LineChartData(
+          gridData: FlGridData(show: false),
+          titlesData: FlTitlesData(show: false),
+          borderData: FlBorderData(show: false),
+          lineBarsData: [
+            LineChartBarData(
+              isCurved: true,
+              barWidth: 3,
+              dotData: FlDotData(show: false),
+              belowBarData: BarAreaData(
+                show: true,
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.graphColor.withValues(alpha: 0.6),
+                    AppColors.graphColor.withValues(alpha: 0.2),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
               ),
-
-              _buildDashboardTile(
-                iconPath: AppIcons.userIcon,
-                title: "Bookings",
-                value: '665.0',
-                subtitle: "Reserved",
-                color: AppColors.lightOrange,
-                onTap: () {},
-              ),
-              _buildDashboardTile(
-                iconPath: AppIcons.userIcon,
-                title: "Invoices",
-                value: '45434.0',
-                subtitle: "Rupees",
-                color: AppColors.lightgreen,
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => InvoicesPage(),));
-                },
-              ),
-            ],
-          ),
+              spots: const [
+                FlSpot(0, 1),
+                FlSpot(1, 3),
+                FlSpot(2, 2),
+                FlSpot(3, 5),
+                FlSpot(4, 3.5),
+                FlSpot(5, 4),
+                FlSpot(6, 3),
+              ],
+            ),
+          ],
         ),
       ),
     );

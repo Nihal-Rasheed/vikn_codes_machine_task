@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:vikn_codes/controller/profile_controller.dart';
+import 'package:vikn_codes/service/share_pref_service.dart';
 import 'package:vikn_codes/utils/app_assets.dart';
 import 'package:vikn_codes/utils/app_icons.dart';
-import 'package:vikn_codes/view/common_widget/dashboard_tile_widget.dart';
+import 'package:vikn_codes/view/common_widget/common_divider.dart';
+import 'package:vikn_codes/view/login_screen.dart';
 
 import '../utils/app_colors.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _callApi();
+  }
+
+  _callApi(){
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<ProfileController>().getProfileDetails();
+    },);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +51,7 @@ class ProfileScreen extends StatelessWidget {
                     spacing: 20,
                     children: [
                       Row(
+                        spacing: 10,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
@@ -43,29 +65,40 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'David Arnol',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                ),
+                          Expanded(
+                            child: Consumer<ProfileController>(
+                              builder: (context, provider, child) =>
+                                  Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FittedBox(
+                                    child: Text(provider.userName??'',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  FittedBox(
+                                    child: Text(provider.userEmail??'',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.lightBlue,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                              Text(
-                                'dhbdhjdb#jdbdbnd',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.lightBlue,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                           SvgPicture.asset(
-                            AppIcons.userIcon,
+                            AppIcons.editIcon,
                             color: Colors.white,
                             height: 24,
                           ),
@@ -81,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
                               value: '2,23',
                               subtitle: 'rides',
                               color: AppColors.lightBlue,
-                              iconPath: AppIcons.homeIcon,
+                              iconPath: AppIcons.starsIcon,
                               titleIcon: Icons.star
                             ),
                           ),
@@ -91,14 +124,17 @@ class ProfileScreen extends StatelessWidget {
                                 value: '2,23',
                                 subtitle: 'rides',
                                 color: AppColors.lightgreen,
-                                iconPath: AppIcons.homeIcon,
+                                iconPath: AppIcons.shieldIcon,
                                 titleIcon: Icons.cloud_done
                             ),
                           ),
                         ],
                       ),
                       ElevatedButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            SharedPrefService.clearTokens();
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false,);
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.scaffoldbgColor,
                             foregroundColor: AppColors.appRed,
@@ -108,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             spacing: 10,
                             children: [
-                              Icon(Icons.logout,size: 24,),
+                              SvgPicture.asset(AppIcons.logoutIcon),
                               Text('Logout',style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
@@ -118,11 +154,12 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-            
-                _buildMenuTile(iconPath: AppIcons.homeIcon, text: 'hdvbhjvdhjd'),
-                _buildMenuTile(iconPath: AppIcons.homeIcon, text: 'hdvbhjvdhjd'),
-                _buildMenuTile(iconPath: AppIcons.homeIcon, text: 'hdvbhjvdhjd'),
-                _buildMenuTile(iconPath: AppIcons.homeIcon, text: 'hdvbhjvdhjd'),
+
+                _buildMenuTile(iconPath: AppIcons.badgeIcon, text: 'Help'),
+                _buildMenuTile(iconPath: AppIcons.searchStatusIcon, text: 'FAQ'),
+                _buildMenuTile(iconPath: AppIcons.inviteIcon, text: 'Invite Friends'),
+                _buildMenuTile(iconPath: AppIcons.shieldSearchIcon, text: 'Terms of service'),
+                _buildMenuTile(iconPath: AppIcons.securityIcon, text: 'Privacy Policy'),
               ],
             ),
           ),
