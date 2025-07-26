@@ -206,37 +206,48 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Selector<LoginController, bool>(
-        selector: (p0, p1) => p1.showSuffix,
-        builder: (context, suffixValue, child) => TextFormField(
+      child: showSuffix
+          ? Selector<LoginController, bool>(
+        selector: (_, p1) => p1.isPasswordVisible,
+        builder: (context, isVisible, child) => TextFormField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           controller: controller,
+          obscureText: !isVisible,
           style: TextStyle(color: Colors.white),
-          onTapOutside: (v) {
-            FocusManager.instance.primaryFocus!.unfocus();
-          },
-          obscureText: suffixValue,
+          onTapOutside: (_) => FocusScope.of(context).unfocus(),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(bottom: 10),
             isDense: true,
             prefixIconConstraints: BoxConstraints(maxHeight: 25, maxWidth: 25),
             labelText: label,
             prefixIcon: SvgPicture.asset(iconPath),
-            suffixIcon: showSuffix
-                ? InkWell(
-                    onTap: () {
-                      context.read<LoginController>().updateVisibilityIcon();
-                    },
-                    child: Icon(
-                      suffixValue ? Icons.visibility : Icons.visibility_off,
-                    ),
-                  )
-                : null,
+            suffixIcon: InkWell(
+              onTap: () => context.read<LoginController>().updateVisibilityIcon(),
+              child: Icon(
+                isVisible ? Icons.visibility : Icons.visibility_off,
+                color: AppColors.primaryColor,
+              ),
+            ),
             border: InputBorder.none,
             prefixIconColor: AppColors.primaryColor,
-            suffixIconColor: AppColors.primaryColor,
           ),
+        ),
+      )
+          : TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
+        controller: controller,
+        style: TextStyle(color: Colors.white),
+        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(bottom: 10),
+          isDense: true,
+          prefixIconConstraints: BoxConstraints(maxHeight: 25, maxWidth: 25),
+          labelText: label,
+          prefixIcon: SvgPicture.asset(iconPath),
+          border: InputBorder.none,
+          prefixIconColor: AppColors.primaryColor,
         ),
       ),
     );

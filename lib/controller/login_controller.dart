@@ -8,10 +8,10 @@ class LoginController extends ChangeNotifier {
   bool isLoading = false;
 
   LoginModel? loginModel;
-  bool showSuffix = false;
+  bool isPasswordVisible = false;
 
   updateVisibilityIcon() {
-    showSuffix = !showSuffix;
+    isPasswordVisible = !isPasswordVisible;
     notifyListeners();
   }
 
