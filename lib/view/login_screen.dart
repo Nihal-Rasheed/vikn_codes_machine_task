@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vikn_codes/view/bottom_navigation_view.dart';
 import 'package:vikn_codes/view/dashboard_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -73,7 +74,10 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 10,),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>DashboardScreen()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
+                        LandingPage()
+                        //DashboardScreen()
+                    ));
                   },style: ElevatedButton.styleFrom(backgroundColor: Color(0xff0A9EF3),
                 foregroundColor: Colors.white),
                   child: Row(mainAxisSize: MainAxisSize.min,
@@ -86,7 +90,9 @@ class LoginScreen extends StatelessWidget {
                 // SizedBox(height: 168,),
                 Text("Don’t have an Account?",style: TextStyle(color: Colors.white),),
                 // SizedBox(height: 4, ),
-                TextButton(onPressed: (){},style: TextButton.styleFrom(foregroundColor: Color(0xff0A9EF3)), child: Text("Sign up now!"))
+                TextButton(
+                    onPressed: (){},style: TextButton.styleFrom(foregroundColor: Color(0xff0A9EF3)),
+                    child: Text("Sign up now!"))
               ],
             ),
           ),
