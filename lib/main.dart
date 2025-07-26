@@ -18,15 +18,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => LandingPageController(),),
-        ChangeNotifierProvider(create: (context) => LoginController(),),
-        ChangeNotifierProvider(create: (context) => InvoiceController(),),
-        ChangeNotifierProvider(create: (context) => ProfileController(),),
+        ChangeNotifierProvider(create: (context) => LandingPageController()),
+        ChangeNotifierProvider(create: (context) => LoginController()),
+        ChangeNotifierProvider(create: (context) => InvoiceController()),
+        ChangeNotifierProvider(create: (context) => ProfileController()),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: AppColors.scaffoldbgColor
-        ),
+        theme: ThemeData(scaffoldBackgroundColor: AppColors.scaffoldbgColor),
         // themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
         home: LoginScreen(),

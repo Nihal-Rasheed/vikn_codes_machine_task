@@ -5,7 +5,6 @@ import 'package:vikn_codes/controller/profile_controller.dart';
 import 'package:vikn_codes/service/share_pref_service.dart';
 import 'package:vikn_codes/utils/app_assets.dart';
 import 'package:vikn_codes/utils/app_icons.dart';
-import 'package:vikn_codes/view/common_widget/common_divider.dart';
 import 'package:vikn_codes/view/login_screen.dart';
 
 import '../utils/app_colors.dart';
@@ -24,10 +23,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _callApi();
   }
 
-  _callApi(){
+  _callApi() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<ProfileController>().getProfileDetails();
-    },);
+    });
   }
 
   @override
@@ -67,12 +66,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Expanded(
                             child: Consumer<ProfileController>(
-                              builder: (context, provider, child) =>
-                                  Column(
+                              builder: (context, provider, child) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   FittedBox(
-                                    child: Text(provider.userName??'',
+                                    child: Text(
+                                      provider.userName ?? '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -83,7 +82,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   FittedBox(
-                                    child: Text(provider.userEmail??'',
+                                    child: Text(
+                                      provider.userEmail ?? '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: AppColors.lightBlue,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -115,51 +115,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               subtitle: 'rides',
                               color: AppColors.lightBlue,
                               iconPath: AppIcons.starsIcon,
-                              titleIcon: Icons.star
+                              titleIcon: Icons.star,
                             ),
                           ),
                           Expanded(
                             child: _buildProfileInfoTile(
-                                title: 'KYC',
-                                value: '2,23',
-                                subtitle: 'rides',
-                                color: AppColors.lightgreen,
-                                iconPath: AppIcons.shieldIcon,
-                                titleIcon: Icons.cloud_done
+                              title: 'KYC',
+                              value: '2,23',
+                              subtitle: 'rides',
+                              color: AppColors.lightgreen,
+                              iconPath: AppIcons.shieldIcon,
+                              titleIcon: Icons.cloud_done,
                             ),
                           ),
                         ],
                       ),
                       ElevatedButton(
-                          onPressed: (){
-                            SharedPrefService.clearTokens();
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false,);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.scaffoldbgColor,
-                            foregroundColor: AppColors.appRed,
-                            padding: EdgeInsets.symmetric(vertical: 22)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 10,
-                            children: [
-                              SvgPicture.asset(AppIcons.logoutIcon),
-                              Text('Logout',style: TextStyle(
+                        onPressed: () {
+                          SharedPrefService.clearTokens();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                            (route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.scaffoldbgColor,
+                          foregroundColor: AppColors.appRed,
+                          padding: EdgeInsets.symmetric(vertical: 22),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 10,
+                          children: [
+                            SvgPicture.asset(AppIcons.logoutIcon),
+                            Text(
+                              'Logout',
+                              style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
-                              ),)
-                            ],
-                          ))
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
 
                 _buildMenuTile(iconPath: AppIcons.badgeIcon, text: 'Help'),
-                _buildMenuTile(iconPath: AppIcons.searchStatusIcon, text: 'FAQ'),
-                _buildMenuTile(iconPath: AppIcons.inviteIcon, text: 'Invite Friends'),
-                _buildMenuTile(iconPath: AppIcons.shieldSearchIcon, text: 'Terms of service'),
-                _buildMenuTile(iconPath: AppIcons.securityIcon, text: 'Privacy Policy'),
+                _buildMenuTile(
+                  iconPath: AppIcons.searchStatusIcon,
+                  text: 'FAQ',
+                ),
+                _buildMenuTile(
+                  iconPath: AppIcons.inviteIcon,
+                  text: 'Invite Friends',
+                ),
+                _buildMenuTile(
+                  iconPath: AppIcons.shieldSearchIcon,
+                  text: 'Terms of service',
+                ),
+                _buildMenuTile(
+                  iconPath: AppIcons.securityIcon,
+                  text: 'Privacy Policy',
+                ),
               ],
             ),
           ),
@@ -168,23 +190,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildMenuTile({
-    required String iconPath,
-    required String text
-}){
+  Widget _buildMenuTile({required String iconPath, required String text}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Row(
         spacing: 10,
         children: [
-          SvgPicture.asset(iconPath,height: 24,color: AppColors.lightBlue,),
-          Text(text,style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-            color: Colors.white,
-          ),),
+          SvgPicture.asset(iconPath, height: 24, color: AppColors.lightBlue),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            ),
+          ),
           Spacer(),
-          Icon(Icons.navigate_next_outlined,color: Colors.white,)
+          Icon(Icons.navigate_next_outlined, color: Colors.white),
         ],
       ),
     );
@@ -224,14 +246,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-            spacing: 3,
+                spacing: 3,
                 children: [
-                  Text(title,style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                  ),),
-        Icon(titleIcon,color: Colors.white,size: 15,)
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Icon(titleIcon, color: Colors.white, size: 15),
                 ],
               ),
               Text(

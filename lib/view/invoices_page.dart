@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vikn_codes/controller/invoice_controller.dart';
-import 'package:vikn_codes/service/share_pref_service.dart';
 import 'package:vikn_codes/utils/app_colors.dart';
 import 'package:vikn_codes/view/common_widget/common_divider.dart';
 import 'package:vikn_codes/view/filter_screen.dart';
@@ -55,11 +54,11 @@ class _InvoicesPageState extends State<InvoicesPage> {
                                 },
                                 controller: _searchController,
                                 onChanged: (value) {
-                                  context.read<InvoiceController>().searchData(_searchController.text);
+                                  context.read<InvoiceController>().searchData(
+                                    _searchController.text,
+                                  );
                                 },
-                                style: TextStyle(
-                                  color: AppColors.appWhite
-                                ),
+                                style: TextStyle(color: AppColors.appWhite),
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Color(0xff08131E),

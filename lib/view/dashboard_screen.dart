@@ -20,11 +20,10 @@ class DashboardScreen extends StatelessWidget {
             child: Column(
               spacing: 15,
               children: [
-            
                 Row(
                   spacing: 5,
                   children: [
-                    Image.asset("assets/images/Group.png"),
+                    Image.asset(AppAssets.appLogo),
                     Text(
                       "CabZing",
                       style: TextStyle(
@@ -37,12 +36,12 @@ class DashboardScreen extends StatelessWidget {
                     CircleAvatar(
                       radius: 30,
                       backgroundColor: AppColors.primaryBgColor,
-                      backgroundImage: AssetImage(AppAssets.dp),
+                      child: Image.asset(AppAssets.dp),
                     ),
                   ],
                 ),
                 _buildChartWidget(),
-            
+
                 _buildDashboardTile(
                   iconPath: AppIcons.stickerIcon,
                   title: "Bookings",
@@ -58,7 +57,10 @@ class DashboardScreen extends StatelessWidget {
                   subtitle: "Rupees",
                   color: AppColors.lightgreen,
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => InvoicesPage(),));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => InvoicesPage()),
+                    );
                   },
                 ),
               ],
@@ -69,8 +71,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-
-  Widget _buildChartWidget(){
+  Widget _buildChartWidget() {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -112,7 +113,7 @@ class DashboardScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.greyTextcolor
+                        color: AppColors.greyTextcolor,
                       ),
                       children: [
                         TextSpan(
@@ -129,42 +130,43 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Text('Revenue',
-              style: TextStyle(
-                fontSize: 16,
-                color: AppColors.appWhite
-              ),)
+              Text(
+                'Revenue',
+                style: TextStyle(fontSize: 16, color: AppColors.appWhite),
+              ),
             ],
-            
           ),
           _buildGraph(),
           Row(
             spacing: 10,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ...List.generate(6, (index) => Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3),
-                  color:
-                  index==1?AppColors.primaryColor:
-                  Color(0xff131313)
+              ...List.generate(
+                6,
+                (index) => Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: index == 1
+                        ? AppColors.primaryColor
+                        : Color(0xff131313),
+                  ),
+                  height: 32,
+                  width: 32,
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(color: AppColors.appWhite),
+                  ),
                 ),
-                height: 32,width: 32,
-                child: Text('${index+1}',
-                style: TextStyle(
-                  color: AppColors.appWhite
-                ),
-                ),
-              ),)
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildGraph(){
+  Widget _buildGraph() {
     return SizedBox(
       height: 200,
       child: LineChart(

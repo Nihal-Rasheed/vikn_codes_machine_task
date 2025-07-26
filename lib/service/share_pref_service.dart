@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPrefService{
+class SharedPrefService {
   static const _accessTokenKey = 'accessToken';
   static const _userIdKey = 'userId';
   static const _userNameKey = 'userName';
@@ -38,7 +38,6 @@ class SharedPrefService{
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_userEmailKey);
   }
-
 
   static Future<void> clearTokens() async {
     final prefs = await SharedPreferences.getInstance();
